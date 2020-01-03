@@ -1,15 +1,40 @@
 \documentclass{article}
+\usepackage{eigilscmds}
 \title{Category theory for Statistics}
 \author{Eigil Fjeldgren Rischel}
 \date{}
 
 \begin{document}
 \maketitle
+\section{Introduction}
 
 The goal of this note is to introduce certain basic concepts of category theory, in a context which will hopefuly make them understandable to people with a background in statistics or similar fields.
 
 There are already several excellent books introducing category theory at an elementary level. I will mention, one, Riehl's \emph{Categories in Context}.
 It is an excellent supplement or replacement for these notes, and available for free on the author's webpage.
 
+The guiding philosophy of category theory is that, when trying to understand a mathematical object, it is usually extremely useful to think about the right notion of \emph{morphism}, i.e structure-preserving transformation, between this type of objects.
+To this we can perhaps add another idea, that one should understand complicated things by understanding how they are composed of simpler things.
 
+I will try to describe several ways to bring these viewpoints to bear on questions of statistics. First, we will take \emph{Markov kernels} as the notion of transformation between measurable spaces, and try to do statistics in this context.
+An interesting fact about this approach is that many definitions and results in statistics fall out of the ``abstract structure'' of this setting, and are thus in a sense independent of measure theory.
+
+\section{$\mathsf{Stoch}$, categories}
+Recall the definition of a \emph{Markov kernel}
+\todo{definition of markov kernel}
+
+Given markov kernels $A \labelto{f} B \labelto{g} C$, we can form their \emph{composition} $g\circ f: A \to C$.
+If we think of a Markov kernel as a map involving some randomness, this composition simply gives the composite map, under the assumption that the two component maps use independent sources of randomness.
+If $X, Y, Z$ are stochastic variables with values in $A,B,C$, so that $f$ is the conditional distribution of $Y$ given $X$, and $g$ is the conditional distribution of $Z$ given $Y$, then $g\circ f$ is the conditional distribution of $Z$ given $X$, if and only if $Z$ is conditionally independent of $X$ given $Y$. (We will give a neat proof of this later)
+\todo{definition of composition}
+
+\begin{example}
+    Suppose we have $P: I \to (A \tensor B \tensor C)$ representing the joint distribution of three random variables $(X,Y,Z)$.
+    Suppose $P$ factors like this:
+    \todo{diagram involving $f: A \to B$ and $g: B \to C$}
+    Then $X$ is independent of $Z$ given $Y$.
+    To see this, consider this diagram.
+    Since the conditional probability of $X$ given $Y$ exists, we can rewrite to this diagram:
+    Now for $P$-almost all $y\in B$, the conditional distribution of $(X,Z)$ is a product distribution, which is what we wanted.
+\end{example}
 \end{document}
