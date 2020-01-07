@@ -1,5 +1,8 @@
 \documentclass{article}
 \usepackage{eigilscmds}
+\newcommand{\del}{\mathsf{del}}
+\newcommand{\cop}{\mathsf{copy}}
+\usepackage{cleveref}
 \title{Category theory for Statistics}
 \author{Eigil Fjeldgren Rischel}
 \date{}
@@ -55,8 +58,41 @@ This choice is not arbitrary - to make sure that each diagram represents the sam
 It's clear that any kernel which satisfies this is equal to the identity kernel.
 We write the identity kernel $1_X$.
 
+To break down (ref)\todo{fix - one with crossing wires}, we need to add another convention, namely that a pair of crossed wires represents the kernel $X \tensor Y \to Y \tensor X$
+which sends $(x,y)$ to the dirac measure $\delta_{(y,x)}$.
+If we need notation for this kernel, we write it as $\sigma_{X,Y}$.
+
+Observe that a kernel which sends each point to a dirac measure is essentially the same thing as a (measurable) function, viewed as a stochastic process which is not really stochastic at all, but deterministic. In this sense the identity kernel ``is just'' the identity function, and $\sigma_{X,Y}$ ``is'' the map swapping the coordinates.
+
 Let us introduce a few more pieces of special notation.
 
+\begin{enumerate}
+    \item For each $X$ there is a kernel $X \to X \tensor X$ sending $x \in X$ to the dirac measure $\delta_{(x,x)}$.
+    We write this as $\mathsf{copy}_X: X \to X \tensor X$ and draw it as a dot, like\todo{figure}. This corresponds to the diagonal map $X \to X \tensor X$ in the sense discussed above.
+    \item Also for each $X$, there is a unique kernel $X \to 1$, where $1$ is the one-point space (since there is only one probability measure on this space).
+    We write this as $\mathsf{del}_X: X \to 1$, and draw it as a dot with nothing coming out of it, like\todo{figure}. This also corresponds to the unique deterministic map $X \to 1$.
+\end{enumerate}
+
+To facilitate (2), we need to add the convention that the lack of a string can represent $1$.
+This essentially means we're using the identification $X \times 1 = X$ - just like the previous footnote about associativity, this is harmless.
+A kernel $1 \to X$ is just the same thing as a probability distribution on $X$. We draw these as triangles, like\todo{figure}.
+
+We now have a rich graphical language for drawing Markov kernels.
+It turns out that a lot of questions that are important in statistics can be phrased as questions about diagrams.
+\begin{example}
+    Consider two random variables $X\in A,Y\in B$with join distribution $P: 1 \to A \tensor B$. Then:
+    \begin{enumerate}
+        \item $X$ is independent of $Y$ if and only if these two diagrams represent the same kernel.
+        \item $f:A \to B$ is the (a) conditional probability of $Y$ given $X$ if and only if these two diagrams represent the same kernel.
+    \end{enumerate}
+    We can combine these:
+    \begin{enumerate}
+        \item[3] Given three random variables with joint distribution $P: 1 \to X \tensor Y \tensor Z$, $X$ and $Y$ are conditionally independent given $Z$ if and only if there is a diagram of the depicted form equal to the first one. \todo{awkward formulation}.
+        To see this, first note that a diagram of this form\todo{new diagram} equal to the original one gives a conditional distribution of $X,Y$ given $Z$.
+        Then they are independent if and only if this is a product distribution for ($P$-almost) all $z\in C$, if and only if the depicted equality holds.
+    \end{enumerate}
+\label{ex:indeps}
+\end{example}
 \begin{example}
     Suppose we have $P: I \to (A \tensor B \tensor C)$ representing the joint distribution of three random variables $(X,Y,Z)$.
     Suppose $P$ factors like this:
@@ -64,6 +100,34 @@ Let us introduce a few more pieces of special notation.
     Then $X$ is independent of $Z$ given $Y$.
     To see this, consider this diagram.
     Since the conditional probability of $X$ given $Y$ exists, we can rewrite to this diagram:
-    Now for $P$-almost all $y\in B$, the conditional distribution of $(X,Z)$ is a product distribution, which is what we wanted.
+    Which is precisely what we wanted, by \cref{ex:indeps} above.
 \end{example}
+
+\todo{some worked examples}
+
+\section{Abstract structure}
+Hopefully by now I've given you some idea that these diagrams are a nice way of working with random variables.
+Now I'm going to pull the rug out and reveal that we've secretly been working with category theory the whole time.
+The structure of the diagrams we have been working with corresponds exactly to the structure of a certain type of category,
+known by several names in the literature. I am going to call them Markov categories, a name introduced by Tobias Fritz in \todo{ref!}.
+It's a great reference, which I have largely been cribbing for these notes so far, although it may not be very readable without a background in category theory.
+
+Let us ask this question: if we wanted to make sense of the diagrams we have been using so far, but we didn't know anything about the underlying objects - didn't know that the labels on the lines correspond to measurable spaces, or that the boxes correspond to kernels, or anything like that - what is the bare minimum of structure we need to intepret these diagrams?
+This may seem like an extremely odd question, but in fact it is extremely natural from the point of view of category theory.
+
+\begin{enumerate}
+    \item Certainly there is a set of possible labels for the lines (e.g. measurable spaces)\footnotemark, which we could maybe just call the set of \emph{labels}.
+    \item There is also a set of possible ``connections'', e.g. kernels, which are the things that each diagram can be interpreted as. Let us just call these the set of \emph{diagrams} (although there is a subtle issue with this).
+    \item Each diagram has a certain collection of labels as its beginning, and another one as its end. We can write this symbolically for now as
+    \[f: x_1, x_2, \dots x_m \to y_1, y_2, \dots, y_n\]
+    \item If the labels at the beginning of a diagram agree with the labels at the end of another diagram, we can put the diagrams on top of one another, \emph{composing} them.
+    Write this as functional composition, i.e:
+    \[f: x_1, x_2, \dots x_m \to y_1, y_2, \dots y_n, g:y_1, \dots y_n \to z_1, \dots z_k\]
+    \[g\circ f : x_1, \dots x_m \to z_1, \dots z_k\]
+    \item We can also put diagrams next to each other (no matter what the labels are) - in that case, we also concatenate the lists of labels. Write this using $\tensor$.
+    \item For each label, there are special diagrams $\cop_X: X \to X,X$ and $\del_X: X \to$ (meaning $\del$ has an \emph{empty} list of output labels).
+    \item There is a special diagram $1_X : X \to X$, and a special diagrams $\sigma_{X,Y}: X,Y \to Y,X$.
+\end{enumerate}
+\footnotemark{Of course, there is not really a \emph{set} of measurable spaces, since this would entail a set of all sets.. we can ignore this issue for now, or suppose that for the first part we worked only with a restricted class of measurable spaces.}
+
 \end{document}
