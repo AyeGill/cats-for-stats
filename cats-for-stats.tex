@@ -2,6 +2,9 @@
 \usepackage{eigilscmds}
 \newcommand{\del}{\mathsf{del}}
 \newcommand{\cop}{\mathsf{copy}}
+\newcommand{\Stoch}{\mathsf{Stoch}}
+\DeclareMathOperator{\ob}{ob}
+
 \usepackage{cleveref}
 \title{Category theory for Statistics}
 \author{Eigil Fjeldgren Rischel}
@@ -22,17 +25,28 @@ To this we can perhaps add another idea, that one should understand complicated 
 I will try to describe several ways to bring these viewpoints to bear on questions of statistics. First, we will take \emph{Markov kernels} as the notion of transformation between measurable spaces, and try to do statistics in this context.
 An interesting fact about this approach is that many definitions and results in statistics fall out of the ``abstract structure'' of this setting, and are thus in a sense independent of measure theory.
 
+I will generally skip over technical details about measure theory without much comment or reference. \todo{flesh}
 \section{Markov kernels}
 Recall the definition of a \emph{Markov kernel}
-\todo{definition of markov kernel}
+\begin{definition}
+    If $(A,\Sigma), (B,\Gamma)$ are measurable spaces, a \emph{Markov kernel} $A \to B$ is given by a map $f: A \times \Gamma \to [0,1]$ such that
+    \begin{itemize}
+        \item For each $a\in A$, $f(a,-)$ is a probability measure on $B$.
+        \item For each $U \in \Gamma$, $f(-,U): A \to [0,1]$ is a measurable function.
+    \end{itemize}
+\end{definition}
+Markov kernels can be conceptualized as ``maps with randomness'', or perhaps as conditional probability distributions.
 
-(Should we work with stochastic matrices first?)
-
+\begin{definition}
 Given markov kernels $A \labelto{f} B \labelto{g} C$, we can form their \emph{composition} $g\circ f: A \to C$.
-If we think of a Markov kernel as a map involving some randomness, this composition simply gives the composite map, under the assumption that the two component maps use independent sources of randomness.
-If $X, Y, Z$ are stochastic variables with values in $A,B,C$, so that $f$ is the conditional distribution of $Y$ given $X$, and $g$ is the conditional distribution of $Z$ given $Y$, then $g\circ f$ is the conditional distribution of $Z$ given $X$, if and only if $Z$ is conditionally independent of $X$ given $Y$. (We will give a neat proof of this later)
-\todo{definition of composition}
+Is is given by $(g\circ f)(a)(U) = \bE_{b \sim f(a)}g(b)(U)$.
+In other words, it is the average probability, according to $g(b)$, of $U$, if $b$ is distributed according to $f(a)$.
+\end{definition}
+(Of course, it must be verified that this is a Markov kernel)
 
+If we think of a Markov kernel as a map involving some randomness, this composition simply gives the composite map, under the assumption that the two component maps use independent sources of randomness.
+If we instead think of a Markov kernel as a conditional distribution, then the composition is given by computing the composed conditional distribution under the assumption of conditional independence.
+If $X, Y, Z$ are stochastic variables with values in $A,B,C$, so that $f$ is the conditional distribution of $Y$ given $X$, and $g$ is the conditional distribution of $Z$ given $Y$, then $g\circ f$ is the conditional distribution of $Z$ given $X$, if and only if $Z$ is conditionally independent of $X$ given $Y$. (We will give a neat proof of this later)
 A few more constructions are important: given $f:A \to B$ and $g:X \to Y$ Markov kernels, we can form the ``parallel composition'' (we might call the previous type "sequential" composition) $A \times X \to B \times Y$,
 given essentially by $P(b,y|a,x) = P(b|a)P(y|x)$. We write this as $f \tensor g$. To harmonize the notation, we will also write the product measure space as $A \tensor B$, rather than $A \times B$.
 
@@ -117,7 +131,7 @@ This may seem like an extremely odd question, but in fact it is extremely natura
 
 \begin{enumerate}
     \item Certainly there is a set of possible labels for the lines (e.g. measurable spaces)\footnotemark, which we could maybe just call the set of \emph{labels}.
-    \item There is also a set of possible ``connections'', e.g. kernels, which are the things that each diagram can be interpreted as. Let us just call these the set of \emph{diagrams} (although there is a subtle issue with this).
+    \item There is also a set of possible ``connections'', e.g. kernels, which are the things that each diagram can be interpreted as. Let us just call these the set of \emph{diagrams} (although there is a subtle issue with this - graphically distinct diagrams may depict the same kernel).
     \item Each diagram has a certain collection of labels as its beginning, and another one as its end. We can write this symbolically for now as
     \[f: x_1, x_2, \dots x_m \to y_1, y_2, \dots, y_n\]
     \item If the labels at the beginning of a diagram agree with the labels at the end of another diagram, we can put the diagrams on top of one another, \emph{composing} them.
@@ -130,4 +144,42 @@ This may seem like an extremely odd question, but in fact it is extremely natura
 \end{enumerate}
 \footnotemark{Of course, there is not really a \emph{set} of measurable spaces, since this would entail a set of all sets.. we can ignore this issue for now, or suppose that for the first part we worked only with a restricted class of measurable spaces.}
 
+The structure sketched above corresponds roughly to what category theorists call a \emph{colored PROP} (although of course I have not been completely precise).
+The only exception is 5., which turns out to be someone special for probability theory. We will meet it again later.
+In fact, we have a bit of extra structure, which we have not really made visible in the diagrams yet (and which in fact doesn't really have a consistent notation).
+This is because kernels $A,B \to C$ are actually kernels $A \tensor B \to C$ - diagrams can always be considered as having a single source and target.
+Thus we can add these bits of structure:
+\begin{enumerate}
+    \item For each pair of labels $x,y$, there is a diagram $f: x,y \to x\tensor y$ with the following property: composing with $f$ gives a bijection between diagrams $x \tensor y \to z_1, \dots z_n$ and diagrams $x,y \to z_1, \dots z_n$, for all sequences $z_1, \dots z_n$ of labels.
+    \item Ther is a label $I$ and a diagram $f: \to I$ with the following property: composing with $f$ gives a bijection between diagrams $I \to z_1, \dots z_n$ and diagrams $\to z_1, \dots z_n$, for all sequences of labels.
+\end{enumerate}
+This makes our structure into a \emph{representable} colored PROP.
+With this, we don't actually need to discuss the maps with multiple inputs and outputs - they are completely described by describing single input/output maps.
+This is in many ways more natural - we don't usually speak of a map with two inputs $A, B \to C$, but just of a map $A \times B \to C$, which we may think of as having one or two inputs.
+In the history of category theory, that's how it went, too. People first developed the notion of \emph{monoidal} category that I'm about to describe, and only later came up with representable PROPs (first, of course, they came up with PROPs, which are interesting in their own right).
+The reason I developed things in this rather silly order is because string diagrams are more naturally interpreted in PROPs.
+
+
+I will give the next definition in a number of steps, corresponding very roughly to the order in which things were introduced above.
+\begin{definition}
+    A \emph{category} $\cC$ consists of the following data.
+    \begin{enumerate}
+        \item A set of \emph{objects}, $\ob \cC$.
+        \item For each $X,Y \in \ob \cC$, a set $\cC(X,Y)$ of \emph{morphisms $X \to Y$}. If $f\in \cC(X,Y)$ we write $f: X \to Y$.
+        \item For each $X,Y,Z \in \ob \cC$, a \emph{composition} $\cC(Y,Z) \times \cC(X,Y) \to \cC(X,Z)$
+        \item For each $X \in \ob \cC$, an \emph{identity} $1_X \in \cC(X,X)$.
+    \end{enumerate}
+    Satisfying $1_X \circ f = f = 1_Y \circ f$ for $f: X \to Y$, and $(f\circ g)\circ h = f \circ (g \circ h)$.
+\end{definition}
+One usually simply writes $X \in \cC$ when $X$ is an object of $\cC$, for brevity.
+\begin{example}
+    Some examples of categories are
+    \begin{enumerate}
+        \item The category $\Set$ where objects are sets, morphisms are functions, and composition is composition of functions.
+        \item The category $\Meas$ where objects are measurable spaces, morphisms are measurable functions, and composition is again simply composition of functions.
+        \item The category $\Stoch$ where objects are measurable spaces, morphisms are \emph{Markov kernels}, and composition is as above.
+    \end{enumerate}
+\end{example}
+These examples illustrate a common problem: a category is not uniquely determined by its objects, so $f:X \to Y$ is ambiguous - if $X,Y$ are measurable spaces, $f$ could be a Markov kernel or a measurable map. This is usually taken to be clear from context, or one can write $f:X \to Y \in \Stoch$ for clarity.
+Also, most classes of objects do have a ``natural'' notion of morphisms, so that $\Meas$ may be called ``the category of measurable spaces'' without too much worry.
 \end{document}
