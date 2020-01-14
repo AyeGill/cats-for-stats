@@ -2,9 +2,13 @@
 \usepackage{eigilscmds}
 \newcommand{\del}{\mathsf{del}}
 \newcommand{\cop}{\mathsf{copy}}
-\newcommand{\Stoch}{\mathsf{Stoch}}
 \DeclareMathOperator{\ob}{ob}
-
+\DeclareMathOperator{\Grp}{Grp}
+\DeclareMathOperator{\Met}{Met}
+\DeclareMathOperator{\FdVect}{FdVect}
+\DeclareMathOperator{\Stoch}{Stoch}
+\DeclareMathOperator{\Prob}{Prob}
+\DeclareMathOperator{\Triv}{Triv}
 \usepackage{cleveref}
 \title{Category theory for Statistics}
 \author{Eigil Fjeldgren Rischel}
@@ -178,8 +182,68 @@ One usually simply writes $X \in \cC$ when $X$ is an object of $\cC$, for brevit
         \item The category $\Set$ where objects are sets, morphisms are functions, and composition is composition of functions.
         \item The category $\Meas$ where objects are measurable spaces, morphisms are measurable functions, and composition is again simply composition of functions.
         \item The category $\Stoch$ where objects are measurable spaces, morphisms are \emph{Markov kernels}, and composition is as above.
+        \item The category $\Prob$ where objects are triples $(X,\Sigma,P)$ s.t. $(X,\Sigma)$ is a measurable space and $P$ is a probability measure on it, and morphisms are measurable, measure-preserving maps.
     \end{enumerate}
 \end{example}
 These examples illustrate a common problem: a category is not uniquely determined by its objects, so $f:X \to Y$ is ambiguous - if $X,Y$ are measurable spaces, $f$ could be a Markov kernel or a measurable map. This is usually taken to be clear from context, or one can write $f:X \to Y \in \Stoch$ for clarity.
 Also, most classes of objects do have a ``natural'' notion of morphisms, so that $\Meas$ may be called ``the category of measurable spaces'' without too much worry.
+
+Categories are the structure necessary to implement \emph{sequential} composition, i.e diagrams like \todo{diagram}.
+Of course, diagrams like that are not very intereting, so string diagrams are not very useful for categories unless they have extra structure.
+When working in a mere category, it is more common to use \emph{commutative diagrams} like this
+
+\begin{tikzcd}
+\bR \ar[r, "{x \mapsto (x,x)}"] \ar[rd, swap, "{x \mapsto 0}"] & \bR \times \bR \ar[d, "{(x,y) \mapsto x -y}"]\\
+& \bR
+\end{tikzcd}
+
+Which express the equality of two different maps (in this case, of the constant $0$ map and the composition depicted).
+
+\begin{example}
+    There are many more examples of categories:
+    \begin{enumerate}
+        \item $\FdVect$: Objects are finite-dimensional (real) vector spaces, maps are linear maps.
+        \item $\Grp$: Objects are groups, maps are group homomorphisms.
+        \item $\Top$: Objects are topological spaces, maps are continuous maps.
+        \item $\Met$: Objects are metric spaces, maps are \emph{short} maps, i.e those satisfying $d_Y(f(x_1),f(x_2)) \leq d_X(x_1,x_2)$.
+        \item $\Ab$: Objects are abelian groups, maps are again group homomorphisms.
+    \end{enumerate}
+    There are also more exotic examples:
+    \begin{enumerate}
+    \item If $(X,\leq)$ is a partially ordered set, there is a category $O(X)$ with $\ob O(X) = X$ and $O(X)(a,b) = \begin{cases} \{*\} & a \leq b\\\emptyset & \text{else}\end{cases}$.
+    In other words, there is a unique map $a \to b$ if $a \leq b$, and no maps otherwise. Verifying that this defines a category is a good exercise.
+    \item If $G$ is a group, there is a category $BG$ with one object $*$, $BG(*,*) = G$, and composition defined by the group multiplication.
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    Let $\cC, \cD$ be categories. A \emph{functor} $F: \cC \to \cD$ consists of
+    \begin{enumerate}
+        \item A map $F: \ob \cC \to \ob \cD$.
+        \item For each $X,Y \in \cC$, a map $F: \cC(X,Y) \to \cD(FX,FY)$.
+        \item So that $F(f\circ g) = F(f) \circ F(g)$, and $F(1_X) = 1_{FX}$. (We say the functor preserves the composition and the units).
+    \end{enumerate}
+\end{definition}
+As you can see, we usually just use the symbol $F$ for all the various maps involved in a functor. We also often omit the parentheses.
+
+\begin{example}
+    \begin{enumerate}
+    \item The assignment $X \mapsto X$ for a measurable space $X$, and $f: X \to Y \mapsto ((x,U) \mapsto x \in U)$ defines a functor $\Meas \to \Stoch$,
+    which sends measurable a space to itself, and each measurable map to the corresponding deterministic Markov kernel (where $x$ goes to the Dirac measure $\delta_{f(x)}$).
+    Verifying that this is actually a functor is an instructive exercise.
+    \item There is a functor $\Triv: \Set \to \Meas$ which sends each set $X$ to $(X,\cP(X))$, and each function $f: X \to Y$ to itself.
+    \item There is a functor $U: \Meas \to \Set$ which sends each measurable space $(X,\Sigma)$ to the underlying set $X$, and each measurable function to itself.
+    \item There is a functor $U: \Prob \to \Meas$ which simply ``forgets'' the probability distributions.
+    \item There is a functor $\Met \to \Top$ which sends each metric space to the underlying set in the induced topology.
+    \item There is a functor $\Top \to \Meas$ which sends each space to the uderlying set in the Borel $\sigma$-algebra.
+    \item A functor $BG \to \Set$ is precisely a set with a $G$-action. A functor $BG \to \FdVect$ is precisely a finite-dimensional (real) representation of $G$.
+    \end{enumerate}
+\end{example}
+The two functors both named $U$ are called \emph{forgetful functors}, because they ``forget'' some of the structure involved (the first one forgets the $\sigma$-algebra).
+Such functors are often denoted $U$ - I am not sure why, but I suppose it might be short for ``underlying''.
+
+Functors preserve diagrams. What I mean by this is that applying a functor to a commutative diagram like \todo{ref} will result in another commutative diagram.
+And in fact this equivalently characterizes functors.
+Hence \emph{functors are those mappings which are compatible with diagrammatic reasoning}.
+When we later see (symmetric) monoidal categories and (symmetric) monoidal functors, we will see that they are precisely those which 
+
 \end{document}
