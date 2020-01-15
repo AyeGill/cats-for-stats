@@ -246,4 +246,47 @@ And in fact this equivalently characterizes functors.
 Hence \emph{functors are those mappings which are compatible with diagrammatic reasoning}.
 When we later see (symmetric) monoidal categories and (symmetric) monoidal functors, we will see that they are precisely those which 
 
+\begin{definition}
+A \emph{monoidal category} is a triple $(\cC, \otimes, I, \alpha, \lambda, \rho)$ where
+    \begin{enumerate}
+        \item $\cC$ is a category.
+        \item $\otimes$ is a functor $\cC \times \cC \to \cC$, called the \emph{monoidal product}.
+        \item $I \in \cC$ is an object, called the \emph{unit}.
+        \item $\lambda$ is a natural isomorphism $\lambda_X: 1 \tensor X \labelto{\sim} X$.
+        \item $\rho$ is a natural isomorphism $\rho_X: X \otimes 1 \labelto{\sim} X$.
+        \item $\alpha$ is a natural isomorphism $\alpha_{X,Y,Z}: (X \tensor Y) \tensor Z \to X \tensor (Y \tensor Z)$.
+    \end{enumerate}
+    Satisfying certain conditions.
+\end{definition}
+For a full definition, see e.g. \todo{Riehl}.
+This definition surely seems daunting, and perhaps rightly so.
+The point is that $\tensor$ is a way of ``combining'' the objects of the category, which should be associative, \emph{but only up to isomorphism}.
+This is really all we can ask for. The prototypical example of a monoidal category is $\Set$, with $\tensor = \times$ and $I = \{*\}$.
+It is not exactly true that the sets $X \times \{*\}$ and $X$ are \emph{equal} - rather, there is a natural way of identifying their elements, by throwing away the superfluous coordinate in a pair like $(x,*)$.
+Similarly, the sets $(X \times Y) \times Z$ and $X \times (Y \times Z)$ are not exactly equal, but there is a natural way of identifying them, sending $((x,y),z)$ to $(x,(y,z))$.
+
+This isomorphism means that it is safe to treat the monoidal structure as if it was really associative and unital.
+The aforementioned conditions are a key part of this.
+Given two products like $(X \tensor Y) \tensor (Z \tensor W)$ and $X \tensor ((Y \tensor Z) \tensor W)$, there are in fact two distinct ways of using $\alpha$ to build an isomorphism between them. If we want to treat these two objects as the same, by composing with this isomorphism, we had better ensure that these two isomorphisms are the same! If there were multiple different ways of identifying these sets with each other (supposing they are sets), we would certainly have to keep track of which one we were using.\footnotemark
+Hence one of the axioms asserts that these two compositions agree - and in fact the axioms suffice to show that there is a unique identification between any two such products of the same objects, built out of $\alpha, \lambda$ and $\rho$.
+
+\footnotetext{For a perhaps more familiar example of something like this, think of keeping track of different coordinate systems in a vector space. Even though the two maps $\bR^n \to V$ given by different bases are both isomorphisms, it is obviously still important to distinguish them. Hence we can't just replace every vector space by $\bR^n$, we must also keep track of the relationships between the possible choices of basis.}
+
+\begin{definition}
+    A \emph{symmetry} on a monoidal category is a natural isomorphism $\sigma_{A,B}: A \tensor B \to B \tensor A$ satisfying a number of compatibility axioms.
+    A symmetric monoidal category is a monoidal category equipped with a symmetry.
+\end{definition}
+Again, for a full treatment, see \cite{Riehl}.
+The point of the compatibility axioms is again that they make sure there is a unique isomorphism built from $\alpha,\lambda,\rho,\sigma$ between any pair of tensor products that ``should'' be isomorphic. Among other things, $\sigma_{A,B}\sigma_{B,A} = 1_{B \tensor A}$.
+Interestingly, this particular axiom can be removed without breaking much of the theory - such a category is called a \emph{braided monoidal category}.
+
+\begin{example}
+    A monoidal category may carry multiple distinct symmetries.
+    For instance, on the monoidal category $(\FdVect, \tensor, \bR)$, the maps $x \tensor y \mapsto y \tensor x$ and $x \tensor y \mapsto -y \tensor x$ are both symmetries. 
+\end{example}
+However, most natural examples of monoidal categories considered here are symmetric.
+
+
+
+
 \end{document}
