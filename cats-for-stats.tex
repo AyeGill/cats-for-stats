@@ -8,6 +8,8 @@
 \DeclareMathOperator{\FdVect}{FdVect}
 \DeclareMathOperator{\Stoch}{Stoch}
 \DeclareMathOperator{\Prob}{Prob}
+\DeclareMathOperator{\Gauss}{Gauss}
+\DeclareMathOperator{\FinStoch}{FinStoch}
 \DeclareMathOperator{\Triv}{Triv}
 \usepackage{cleveref}
 \title{Category theory for Statistics}
@@ -22,6 +24,10 @@ The goal of this note is to introduce certain basic concepts of category theory,
 
 There are already several excellent books introducing category theory at an elementary level. I will mention, one, Riehl's \emph{Categories in Context}.
 It is an excellent supplement or replacement for these notes, and available for free on the author's webpage.
+There is also the wonderful book \emph{Seven Sketches in Compositionality} by Brendan Fong and David Spivak.
+It's less of a compendium of category theory, and more of a motivating introduction, written from the viewpoint of applied mathematics.
+I would definitely recommend looking at \emph{Seven Sketches} before looking at these notes.
+(Like \emph{Categories in Context}, it can be found on arXiv).
 
 The guiding philosophy of category theory is that, when trying to understand a mathematical object, it is usually extremely useful to think about the right notion of \emph{morphism}, i.e structure-preserving transformation, between this type of objects.
 To this we can perhaps add another idea, that one should understand complicated things by understanding how they are composed of simpler things.
@@ -287,6 +293,36 @@ Interestingly, this particular axiom can be removed without breaking much of the
 However, most natural examples of monoidal categories considered here are symmetric.
 
 
+\begin{example}
+    Consider the functor $i: \FinStoch \to Stoch$ which equips each finite set with the powerset $\sigma$-algebra, and sends a stochastic matrix to the associated Markov kernel.
+    This functor is a comonoid functor.
+\end{example}
+\begin{example}
+    Consider the category $\Gauss$ defined as follows:
+    \begin{enumerate}
+        \item The objects are natural numbers $n= 0, 1, \dots$.
+        \item The maps $n \to m$ are given by a tuple $(A, \xi, \Sigma)$, where $M \in \bR^{n \times m}$ is a matrix, $\xi \in \bR^m$ is a vector, and $\Sigma \in \bR^{m \times m}$ is a symmetric, positive-semidefinite matrix.
+        \item Composition $(B,\mu,\Gamma) \circ (A,\xi,\Sigma) = (BA, \mu + B\xi, \Gamma + B\Sigma B^T)$
+    \end{enumerate}
+    $\Gauss$ has a symmetric monoidal structure where $n \tensor m = n + m$, which acts on morphisms by taking direct or block sum, i.e
+    \[(A,\xi,\Sigma) \tensor (B,\mu,\Gamma) = (A \oplus B, (\xi,\mu), \Sigma \oplus \Gamma)\]
+where \[A \oplus B = \begin{pmatrix}A & 0 \\ 0 & B\end{pmatrix}\]
+    Moreover, $\Gauss$ is a Markov category, with
+\[\cop = \left(\begin{pmatrix}I_A\\I_A\end{pmatrix}, 0, 0\right)\]
+    and terminal object/unit given by $0$ (We use the convention that there is a unique $n \times 0$ matrix for each $n$).
+    If it wasn't clear from the chosen formulas, the interpretation of $\Gauss$ is that $n$ is $n$-dimensional space, and a map is an affine map plus (multivariate) Gaussian noise.
+    This actually defines a comonoid functor $\Gauss \to \Stoch$.
+    This means you can interpret a string diagram representing stochastic maps like this as either
+    \begin{enumerate}
+        \item A purely linear-algebra object, consisting of matrices and vectors
+        \item Or a description of a probabilistic map
+    \end{enumerate}
+    \emph{and these interpretations are compatible}.
+    \todo{Diagram with conditionals} gives you a \emph{definition} of conditional distributions in the world of $\Gauss$, which is purely an algebraic object.
+    But moving this into $\Stoch$ actually gives the proper conditional distribution.
+    And this doesn't need to be proven, this is just a consequence of abstract theory.
+
+\end{example}
 
 
 \end{document}
