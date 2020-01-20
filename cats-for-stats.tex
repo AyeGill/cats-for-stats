@@ -104,7 +104,6 @@ We write the identity kernel $1_X$.
 \input{cross.tikz}
 \end{center}
 \caption{Crossed wires - a kernel $X \tensor Y \tensor Z \to W$}
-
 \label{fig:cross}
 \end{figure}
 
@@ -115,13 +114,11 @@ If we need notation for this kernel, we write it as $\sigma_{X,Y}$.
 
 Observe that a kernel which sends each point to a dirac measure is essentially the same thing as a (measurable) function, viewed as a stochastic process which is not really stochastic at all, but deterministic. In this sense the identity kernel ``is just'' the identity function, and $\sigma_{X,Y}$ ``is'' the map swapping the coordinates.
 
-Let us introduce a few more pieces of special notation.
 \begin{figure}
 \begin{center}
 \input{copyX.tikz}
 \end{center}
 \caption{$\cop_X$}
-
 \label{fig:copy}
 \end{figure}
 
@@ -130,9 +127,10 @@ Let us introduce a few more pieces of special notation.
 \input{deleteX.tikz}
 \end{center}
 \caption{$\del_X$}
-
 \label{fig:delete}
 \end{figure}
+
+Let us introduce a few more pieces of special notation.
 
 \begin{enumerate}
     \item For each $X$ there is a kernel $X \to X \tensor X$ sending $x \in X$ to the dirac measure $\delta_{(x,x)}$.
@@ -221,8 +219,10 @@ This is in many ways more natural - we don't usually speak of a map with two inp
 In the history of category theory, that's how it went, too. People first developed the notion of \emph{monoidal} category that I'm about to describe, and only later came up with representable PROPs (first, of course, they came up with PROPs, which are interesting in their own right).
 The reason I developed things in this rather silly order is because string diagrams are more naturally interpreted in PROPs.
 
+We will approach the definition of ``monoidal category'' in several steps, roughly corresponding to the order above.
+Along the way, we will need to introduce several other notions, in order to make the definition manageable.
+I will try to motivate these definitions - far from being simply utilities to make the main definition easier, they are really the bread and butter of category theory.
 
-I will give the next definition in a number of steps, corresponding very roughly to the order in which things were introduced above.
 \begin{definition}
     A \emph{category} $\cC$ consists of the following data.
     \begin{enumerate}
@@ -273,6 +273,8 @@ Which express the equality of two different maps (in this case, of the constant 
     \item If $G$ is a group, there is a category $BG$ with one object $*$, $BG(*,*) = G$, and composition defined by the group multiplication.
     \end{enumerate}
 \end{example}
+
+
 \begin{definition}
     Let $\cC, \cD$ be categories. A \emph{functor} $F: \cC \to \cD$ consists of
     \begin{enumerate}
