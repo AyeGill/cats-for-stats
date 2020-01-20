@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=Blank] (0) at (0, 0) {};
+		\node [style=Bullet] (1) at (0, 1) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (0) to (1);
+	\end{pgfonlayer}
+\end{tikzpicture}

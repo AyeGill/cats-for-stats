@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=Bullet] (0) at (0, 0) {};
+		\node [style=Blank] (1) at (0, -1) {$X$};
+		\node [style=Blank] (2) at (-1, 1) {$X$};
+		\node [style=Blank] (3) at (1, 1) {$X$};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (1) to (0);
+		\draw [in=225, out=45] (0) to (3);
+		\draw (0) to (2);
+	\end{pgfonlayer}
+\end{tikzpicture}

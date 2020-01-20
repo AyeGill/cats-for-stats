@@ -1,0 +1,19 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=smallbox] (0) at (-0.75, 0) {$f$};
+		\node [style=smallbox] (1) at (0.75, 0) {$g$};
+		\node [style=widebox] (2) at (0, 2.25) {$h$};
+		\node [style=Blank] (3) at (-0.75, -2.5) {$X$};
+		\node [style=Blank] (4) at (0.75, -2.5) {$Y$};
+		\node [style=Blank] (5) at (0, 4) {$Z$};
+		\node [style=none] (6) at (-0.25, 2.25) {};
+		\node [style=none] (7) at (0.25, 2.25) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (5) to (2);
+		\draw (3) to (0);
+		\draw (4) to (1);
+		\draw (6.center) to (0);
+		\draw (1) to (7.center);
+	\end{pgfonlayer}
+\end{tikzpicture}

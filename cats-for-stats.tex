@@ -1,5 +1,7 @@
 \documentclass{article}
 \usepackage{eigilscmds}
+\usepackage{tikzit}
+\input{foo.tikzstyles}
 \newcommand{\del}{\mathsf{del}}
 \newcommand{\cop}{\mathsf{copy}}
 \DeclareMathOperator{\ob}{ob}
@@ -62,7 +64,6 @@ given essentially by $P(b,y|a,x) = P(b|a)P(y|x)$. We write this as $f \tensor g$
 
 
 We can depict Markov kernels in diagrams like this:
-
 \todo{examples of diagrams}
 
 The meaning of these is probably quite intuitive, but let us spell it out
@@ -76,25 +77,68 @@ The meaning of these is probably quite intuitive, but let us spell it out
 
 \footnote{There is an issue here regarding associativity - because the spaces $(A \tensor B) \tensor C$ and $A \tensor (B \tensor C)$ are not \emph{equal}, there is a question of which order to apply the parallel composition in. This turns out to not really matter - we can abuse notation and identify these two sets without worrying about it}
 
-Using this, we can break down a diagram like (ref)\todo{fix} into $(f \tensor g) \circ h$.
-To break down (ref)\todo{fix - one with identities} we need to add the convention that an undecorated line stands for the \emph{identity kernel} $X \to X$ which sends $x\in X$ to the dirac measure $\delta_x$.
+\begin{figure}
+    \begin{center}
+    \input{exdiag1.tikz}
+    \end{center}
+\caption{$(f \tensor g) \circ h$}
+    \label{fig:ex1}
+\end{figure}
+    
+\begin{figure}
+\begin{center}
+\input{exdiag2.tikz}
+\end{center}
+\caption{$(1_X \tensor f) \circ g$}
+\label{fig:ex2}
+\end{figure}
+
+Using this, we can break down a diagram like \cref{fig:ex1} $(f \tensor g) \circ h$.
+To break down \cref{fig:ex2} we need to add the convention that an undecorated line stands for the \emph{identity kernel} $X \to X$ which sends $x\in X$ to the dirac measure $\delta_x$.
 This choice is not arbitrary - to make sure that each diagram represents the same kernel, no matter how we break it down, the kernel $f_X$ represented by the line needs to satisfy $f_Yg = g = gf_X$ for all kernels $g$.
 It's clear that any kernel which satisfies this is equal to the identity kernel.
 We write the identity kernel $1_X$.
 
-To break down (ref)\todo{fix - one with crossing wires}, we need to add another convention, namely that a pair of crossed wires represents the kernel $X \tensor Y \to Y \tensor X$
+\begin{figure}
+\begin{center}
+\input{cross.tikz}
+\end{center}
+\caption{Crossed wires - a kernel $X \tensor Y \tensor Z \to W$}
+
+\label{fig:cross}
+\end{figure}
+
+
+To break down \cref{fig:cross}, we need to add another convention, namely that a pair of crossed wires represents the kernel $X \tensor Y \to Y \tensor X$
 which sends $(x,y)$ to the dirac measure $\delta_{(y,x)}$.
 If we need notation for this kernel, we write it as $\sigma_{X,Y}$.
 
 Observe that a kernel which sends each point to a dirac measure is essentially the same thing as a (measurable) function, viewed as a stochastic process which is not really stochastic at all, but deterministic. In this sense the identity kernel ``is just'' the identity function, and $\sigma_{X,Y}$ ``is'' the map swapping the coordinates.
 
 Let us introduce a few more pieces of special notation.
+\begin{figure}
+\begin{center}
+\input{copyX.tikz}
+\end{center}
+\caption{$\cop_X$}
+
+\label{fig:copy}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\input{deleteX.tikz}
+\end{center}
+\caption{$\del_X$}
+
+\label{fig:delete}
+\end{figure}
 
 \begin{enumerate}
     \item For each $X$ there is a kernel $X \to X \tensor X$ sending $x \in X$ to the dirac measure $\delta_{(x,x)}$.
-    We write this as $\mathsf{copy}_X: X \to X \tensor X$ and draw it as a dot, like\todo{figure}. This corresponds to the diagonal map $X \to X \tensor X$ in the sense discussed above.
+    We write this as $\mathsf{copy}_X: X \to X \tensor X$ and draw it as a dot, like \cref{fig:copy}. This corresponds to the diagonal map $X \to X \tensor X$ in the sense discussed above.
     \item Also for each $X$, there is a unique kernel $X \to 1$, where $1$ is the one-point space (since there is only one probability measure on this space).
-    We write this as $\mathsf{del}_X: X \to 1$, and draw it as a dot with nothing coming out of it, like\todo{figure}. This also corresponds to the unique deterministic map $X \to 1$.
+    We write this as $\mathsf{del}_X: X \to 1$, and draw it as a dot with nothing coming out of it, like \cref{fig:delete}. This also corresponds to the unique deterministic map $X \to 1$.
 \end{enumerate}
 
 To facilitate (2), we need to add the convention that the lack of a string can represent $1$.
@@ -103,11 +147,19 @@ A kernel $1 \to X$ is just the same thing as a probability distribution on $X$. 
 
 We now have a rich graphical language for drawing Markov kernels.
 It turns out that a lot of questions that are important in statistics can be phrased as questions about diagrams.
+\begin{figure}
+    \begin{center}
+    \input{indep.tikz}
+    \end{center}
+    \caption{Conditional probability}
+    
+    \label{fig:conditional}
+    \end{figure}    
 \begin{example}
     Consider two random variables $X\in A,Y\in B$with join distribution $P: 1 \to A \tensor B$. Then:
     \begin{enumerate}
         \item $X$ is independent of $Y$ if and only if these two diagrams represent the same kernel.
-        \item $f:A \to B$ is the (a) conditional probability of $Y$ given $X$ if and only if these two diagrams represent the same kernel.
+        \item $f:A \to B$ is the (a) conditional probability of $Y$ given $X$ if and only if the two diagrams in \cref{fig:conditional} represent the same kernel.
     \end{enumerate}
     We can combine these:
     \begin{enumerate}
