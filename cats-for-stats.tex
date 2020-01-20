@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage{eigilscmds}
 \usepackage{tikzit}
+
+\usepackage{bbm}
 \input{foo.tikzstyles}
 \newcommand{\del}{\mathsf{del}}
 \newcommand{\cop}{\mathsf{copy}}
@@ -274,6 +276,15 @@ Which express the equality of two different maps (in this case, of the constant 
     \end{enumerate}
 \end{example}
 
+Having immersed ourselves in theory for a while, let's return to our example of Markov kernels for a while.
+Recall the special kernel $1_X: X \to X$, which is defined by $1_X(x,U) = \mathbbm{1}_U(x)$, \todo{figure out notation} i.e $1$ if $x \in U$ and $0$ else.
+In the interpretation of a Markov kernel as a ``random map'', this kernel corresponds to the map which non-randomly maps each element to itself.
+We can define a large class of Markov kernels in this way:
+\begin{definition}
+    Given a measurable function $f: X \to Y$, the induced markov kernel $\bar{f}: X \to Y$ is defined as $\bar{f}(x,U) = \mathbbm{1}_U(f(x))$.
+\end{definition}
+An important property of this construction is that it's \emph{compatible with composition}, in the sense that $\overline{f \circ g} = \bar{f} \circ \bar{g}$,
+when $f,g$ are composable measurable functions.
 
 \begin{definition}
     Let $\cC, \cD$ be categories. A \emph{functor} $F: \cC \to \cD$ consists of
