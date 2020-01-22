@@ -181,6 +181,51 @@ It turns out that a lot of questions that are important in statistics can be phr
 
 \todo{some worked examples}
 
+\section{Worked example: Causal inference}
+(This section essentially stolen from \cite{CausalSurgery}).
+
+Now I'll use string diagrams to do a simple statistical problem: inferring an interventional distribution from an observed distribution.
+The statistics of this section is probably familiar to statisticians, but I will give some exposition anyway, to make sure everyone is on the same page (since it's quite new to me).
+
+Consider the following classical inference problem: we have two observed variables,
+$X$ and $Y$. We observe a correlation between these two variables, but we are unsure about whether this connection is causal.
+In other words, we want to know if it will persist if we intervene on $X$.
+This is not, in general, possible to do just using observational data.
+Using only measurements of $X$ and $Y$, we cannot distinguish between the possibilities
+``$X$ causes $Y$'', ``$Y$ causes $X$'', and ``$X$ and $Y$ share an unobserved common cause''.
+
+To make things concrete, let's say $X$ is the binary variable measuring whether a person smokes, and $Y$ is the binary variable measuring whether a person has lung cancer.
+In this case, the observed correlation is extremely strong.
+Moreover, the question of causality is very important - if smoking does cause cancer (and is not simply caused by some other factor which also causes cancer), we want to know about it!
+We are trying to distinguish between the two causal graphs shown in figure \todo{add figure}, with the caveat that we cannot measure $F$.
+
+The trick to doing this is to add some domain knowledge - we actually think we know \emph{how} smoking causes cancer, namely by adding tar to the lungs. So we add a tar node to our diagram. \todo{figure}.
+Now it's actually possible to figure this out!
+The intuitive reason is that, if there's a common cause of smoke and cancer, then smoking and cancer should still be correlated even conditioning on the presence of tar in the lungs.
+But if not, then conditioning on the presence of tar should render smoking and cancer independent.
+
+We model this in the following way: \todo{figure!}
+All our variables are binary (for simplicity). They are 
+\begin{enumerate}
+    \item $F$, a hypothetical common cause of smoking and cancer.
+    \item $S$, smoking/non-smoking.
+    \item $C$, cancer/no cancer.
+    \item $T$, tar/no tar.
+\end{enumerate}
+We suppose that there is a background distribution $P: 1 \to F$,
+kernels $f: F \to S, g: S \to T, h: T \tensor F \to C$, which describe the conditional distribution of each variable given its causes. \todo{diagram}.
+
+Then the \emph{observed distribution} is the distribution
+\[(1_T \tensor h)\circ (\cop_Tgf\tensor 1_F )\circ\cop_F\circ P,\]
+which is depicted in \todo{diagram}.
+
+Now we want to understand the \emph{interventional distribution}.
+To be concrete, let's ask this question: if we assign each person to smoke or not smoke at random (with equal probability), what is the distribution of $(S,C)$? How strong is the correlation?
+
+Letting $U: 1 \to S$ be the uniform distribution, this distribution is given by \todo{figure}.
+The surprise is that this can actually be calculated from the observational distribution.
+\todo{finish this - see notebook, paper thm 6.3 for details}.
+
 \section{Abstract structure}
 Hopefully by now I've given you some idea that these diagrams are a nice way of working with random variables.
 Now I'm going to pull the rug out and reveal that we've secretly been working with category theory the whole time.
