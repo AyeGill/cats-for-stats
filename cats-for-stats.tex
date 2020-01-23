@@ -224,7 +224,17 @@ To be concrete, let's ask this question: if we assign each person to smoke or no
 
 Letting $U: 1 \to S$ be the uniform distribution, this distribution is given by \todo{figure}.
 The surprise is that this can actually be calculated from the observational distribution.
+To accomplish this, first we take the conditional probability of tar given smoking, and the conditional probability of cancer given tar and smoking (in terms of the observational distribution).
+This gives us a diagram \todo{make it}.
+In fact, we can fill in these boxes, obtaining \todo{rewritten figure}.
+But observe that the dashed box is precisely the conditional probability - in other words, it is determined from the observation distribution.
+Filling it into our interventional diagram, we obtain \todo{diagram} , which we can calculate - the marginal of $S$ is uniform, the conditional distribution of $T$ given $S$ is just $g$, and the conditional of $C$ given $T$ is precisely $\int_f h(t,f) dP(f)$.
+
+I hope this example illustrates how manipulating string diagrams can make some arguments more easy to understand.
 \todo{finish this - see notebook, paper thm 6.3 for details}.
+
+
+
 
 \section{Abstract structure}
 Hopefully by now I've given you some idea that these diagrams are a nice way of working with random variables.
