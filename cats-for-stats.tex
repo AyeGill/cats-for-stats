@@ -149,12 +149,13 @@ We now have a rich graphical language for drawing Markov kernels.
 It turns out that a lot of questions that are important in statistics can be phrased as questions about diagrams.
 \begin{figure}
     \begin{center}
-    \input{indep.tikz}
+    \input{cond.tikz}
     \end{center}
     \caption{Conditional probability}
     
     \label{fig:conditional}
-    \end{figure}    
+\end{figure}   
+
 \begin{example}
     Consider two random variables $X\in A,Y\in B$with join distribution $P: 1 \to A \tensor B$. Then:
     \begin{enumerate}
@@ -204,6 +205,7 @@ Now it's actually possible to figure this out!
 The intuitive reason is that, if there's a common cause of smoke and cancer, then smoking and cancer should still be correlated even conditioning on the presence of tar in the lungs.
 But if not, then conditioning on the presence of tar should render smoking and cancer independent.
 
+
 We model this in the following way: \todo{figure!}
 All our variables are binary (for simplicity). They are 
 \begin{enumerate}
@@ -218,6 +220,8 @@ kernels $f: F \to S, g: S \to T, h: T \tensor F \to C$, which describe the condi
 Then the \emph{observed distribution} is the distribution
 \[(1_T \tensor h)\circ (\cop_Tgf\tensor 1_F )\circ\cop_F\circ P,\]
 which is depicted in \todo{diagram}.
+Let's make up a sample
+
 
 Now we want to understand the \emph{interventional distribution}.
 To be concrete, let's ask this question: if we assign each person to smoke or not smoke at random (with equal probability), what is the distribution of $(S,C)$? How strong is the correlation?
@@ -230,10 +234,8 @@ In fact, we can fill in these boxes, obtaining \todo{rewritten figure}.
 But observe that the dashed box is precisely the conditional probability - in other words, it is determined from the observation distribution.
 Filling it into our interventional diagram, we obtain \todo{diagram} , which we can calculate - the marginal of $S$ is uniform, the conditional distribution of $T$ given $S$ is just $g$, and the conditional of $C$ given $T$ is precisely $\int_f h(t,f) dP(f)$.
 
+
 I hope this example illustrates how manipulating string diagrams can make some arguments more easy to understand.
-\todo{finish this - see notebook, paper thm 6.3 for details}.
-
-
 
 
 \section{Abstract structure}
@@ -441,8 +443,21 @@ where \[A \oplus B = \begin{pmatrix}A & 0 \\ 0 & B\end{pmatrix}\]
     \todo{Diagram with conditionals} gives you a \emph{definition} of conditional distributions in the world of $\Gauss$, which is purely an algebraic object.
     But moving this into $\Stoch$ actually gives the proper conditional distribution.
     And this doesn't need to be proven, this is just a consequence of abstract theory.
-
 \end{example}
 
+\begin{example}
+    There's a well-known formula for the conditional distribution of a multivariate Gaussian (which in particular shows that it's Gaussian).
+    Here's a sketch of an alternative way of proving this fomula:
+    \begin{enumerate}
+        \item Given $f: A \to X \tensor Y$ in $\Gauss$, define $f|X: A \tensor X \to Y$ by the traditional formula.
+        \item Prove that this is a conditional distribution in our sense - by linear algebra.
+        \item Conclude that the image in $\Stoch$ is the conditional distribution that we're trying to construct.
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    Suppose we have a Gaussian graphical model with the same underlying graph as the smoking example.
+    For example, suppose that 
+\end{example}
 
 \end{document}
