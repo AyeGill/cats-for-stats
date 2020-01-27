@@ -457,7 +457,13 @@ where \[A \oplus B = \begin{pmatrix}A & 0 \\ 0 & B\end{pmatrix}\]
 
 \begin{example}
     Suppose we have a Gaussian graphical model with the same underlying graph as the smoking example.
-    For example, suppose that 
+    For example, suppose we use a more sophisticated model where all our variables are real-valued (measuring, say, the frequency of smoking, the measured amount of tar, and the measured amount of cancer.\footnote{This is a pretty bad model - none of these variables should reasonably be negative, and the actualy distributions probably have discontinuities around zero. But we'll use it anyways.}
+
+    As before, we have an observational distribution, which again is as depicted in figure \todo{ref}.
+    This is a morphism $0 \to 3$ is $\mathsf{Gauss}$, which consists of a pair $(\xi \in \bR^3, \Sigma \in \bR^{3\time 3})$.
+    Now let's find the interventional distribution under the intervention $S := U$, where $U \sim \cN(0,1)$ is a new independent normal variable.
+    Repeating the argumenst of section \todo{ref}, using our formula for the conditional distributions, we obtain the following expression for the interventional distribution:
+    \todo{calculate this}
 \end{example}
 
 \end{document}
