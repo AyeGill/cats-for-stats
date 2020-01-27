@@ -364,6 +364,10 @@ As you can see, we usually just use the symbol $F$ for all the various maps invo
     \item There is a functor $\Met \to \Top$ which sends each metric space to the underlying set in the induced topology.
     \item There is a functor $\Top \to \Meas$ which sends each space to the uderlying set in the Borel $\sigma$-algebra.
     \item A functor $BG \to \Set$ is precisely a set with a $G$-action. A functor $BG \to \FdVect$ is precisely a finite-dimensional (real) representation of $G$.
+    \item A functor $(\bN,\leq) \to \Stoch$ consists of a sequence of measurable spaces $X_1, \dots$, and transition kernels $X_i \to X_{i+1}$. We may think of this as a discrete-time stochastic process (with possibly changing state space).
+    \item Similarly, a functor $(\bR,\leq) \to \Stoch$ consists of measurable spaces $\{X_r \mid r \in \bR\}$,
+    with a kernel $t_{rs}: X_r \to X_s$ for each $r \leq s$, s.t $t_{rt} = t_{st}t_{rs}$.
+    This can be viewed as a continuous-time stochastic process (although one without any sort of continuity properties).
     \end{enumerate}
 \end{example}
 The two functors both named $U$ are called \emph{forgetful functors}, because they ``forget'' some of the structure involved (the first one forgets the $\sigma$-algebra).
@@ -465,5 +469,6 @@ where \[A \oplus B = \begin{pmatrix}A & 0 \\ 0 & B\end{pmatrix}\]
     Repeating the argumenst of section \todo{ref}, using our formula for the conditional distributions, we obtain the following expression for the interventional distribution:
     \todo{calculate this}
 \end{example}
+
 
 \end{document}
