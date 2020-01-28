@@ -495,10 +495,24 @@ Can we describe the category $\Stoch$ in terms of $\Meas$ and $G$? It turns out 
     For $\mu \in GA, A \in \Meas$
 \end{enumerate}
 Exercise: verify that this composition rule agrees with the one defined for $\Stoch$.
-
-The structure that we have so equipped $G$ with is called the structure of a \emph{monad} - a monad is a functor $\cC \to \cC$ equipped with operations $X \to GX$ and $GGX \to GX$ for each $X \in \cC$.
 \end{example}
 
+The structure that we have so equipped $G$ with is called the structure of a \emph{monad} - a monad is a functor $\cC \to \cC$ equipped with operations $X \to GX$ and $GGX \to GX$ for each $X \in \cC$.
+The pattern of having a family of morphisms indexed by the objects of category is very common.
+Typically, one must impose a certain condition to ensure this is well-behaved.
+
+\begin{definition}
+    Let $F,G: \cC \to \cD$ be functors.
+    A \emph{natural transformation} $\alpha: F \to G$ is a family of maps $\{\alpha_X: FX \to GX\}_{X \in \cC}$ in $\cD$, satisfying this condition: for each map $f: X \to Y$ in $\cC$, the following diagram commutes.
+
+    \begin{tikzcd}
+        FX \ar[r, "F(f)"] \ar[d, "\alpha_X"] & FY \ar[d, "\alpha_Y"]\\
+        GX \ar[r, "G(f)"] & GY
+    \end{tikzcd}
+
+\end{definition}
+
+Exercise: verify that $x \mapsto \delta_x$ and $\int_A: GGA \to GA$ are natural transformations.
 
 
 \end{document}
