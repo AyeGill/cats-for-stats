@@ -358,6 +358,7 @@ As you can see, we usually just use the symbol $F$ for all the various maps invo
     \item The assignment $X \mapsto X$ for a measurable space $X$, and $f: X \to Y \mapsto ((x,U) \mapsto x \in U)$ defines a functor $\Meas \to \Stoch$,
     which sends measurable a space to itself, and each measurable map to the corresponding deterministic Markov kernel (where $x$ goes to the Dirac measure $\delta_{f(x)}$).
     Verifying that this is actually a functor is an instructive exercise.
+    \item For any category $\cC$, there is an ``identity functor'' $1_\cC: \cC \to \cC$.
     \item There is a functor $\Triv: \Set \to \Meas$ which sends each set $X$ to $(X,\cP(X))$, and each function $f: X \to Y$ to itself.
     \item There is a functor $U: \Meas \to \Set$ which sends each measurable space $(X,\Sigma)$ to the underlying set $X$, and each measurable function to itself.
     \item There is a functor $U: \Prob \to \Meas$ which simply ``forgets'' the probability distributions.
@@ -373,10 +374,20 @@ As you can see, we usually just use the symbol $F$ for all the various maps invo
 The two functors both named $U$ are called \emph{forgetful functors}, because they ``forget'' some of the structure involved (the first one forgets the $\sigma$-algebra).
 Such functors are often denoted $U$ - I am not sure why, but I suppose it might be short for ``underlying''.
 
+
 Functors preserve diagrams. What I mean by this is that applying a functor to a commutative diagram like \todo{ref} will result in another commutative diagram.
 And in fact this equivalently characterizes functors.
 Hence \emph{functors are those mappings which are compatible with diagrammatic reasoning}.
-When we later see (symmetric) monoidal categories and (symmetric) monoidal functors, we will see that they are precisely those which 
+When we later see (symmetric) monoidal categories and (symmetric) monoidal functors, we will see that they are precisely those which are compatible with string diagrams.
+
+\begin{definition}
+The category $\Cat$ has
+\begin{enumerate}
+    \item Objects all categories
+    \item Morphisms $\cC \to \cD$ simply the functors $\cC \to \cD$.
+    \item Composition defined the obvious way, identities as defined above.
+\end{enumerate}
+\end{definition}
 
 \begin{definition}
 A \emph{monoidal category} is a triple $(\cC, \otimes, I, \alpha, \lambda, \rho)$ where
