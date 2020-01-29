@@ -512,7 +512,42 @@ Typically, one must impose a certain condition to ensure this is well-behaved.
 
 \end{definition}
 
-Exercise: verify that $x \mapsto \delta_x$ and $\int_A: GGA \to GA$ are natural transformations.
+Exercise: verify that $x \mapsto \delta_x$ and $\int_A: GGA \to GA$ are natural transformations (between what functors?).
+
+We can now give the definition of monad:
+\begin{definition}
+    A \emph{monad} on a category $\cC$ consists of
+    \begin{enumerate}
+        \item A functor $T: \cC \to \cC$
+        \item A natural transformation $\eta: 1_\cC \to T$ called the \emph{unit}.
+        \item A natural transformation $\mu: T^2 \to T$ called the \emph{multiplication}.
+    \end{enumerate}
+    So that the following diagrams commute for all $X \in \cC$:
+
+    \begin{tikzcd}
+        TX \ar[r, "T(\eta_X)"] \ar[d, "\eta_{TX}"] \ar[dr, "1_{TX}"] & T^2X \ar[d, "\mu"]\\
+        T^2X \ar[r, "\mu"] & TX
+    \end{tikzcd}
+
+    \begin{tikzcd}
+        T^3X \ar[r, "T(\mu_X)"] \ar[d, "\mu_{TX}"] & T^2X \ar[d, "\mu_X"]\\
+        T^2X \ar[r, "\mu_X"] & TX
+    \end{tikzcd}
+\end{definition}
+
+In fact, the construction of $\Stoch$ from $\Meas$ and $G$ is a general thing:
+
+\begin{definition}
+    Given a monad $T$ on a category $\cC$, the \emph{Kleisli category} of $T$, $Kl(T)$, is the category with
+    \begin{enumerate}
+        \item Objects the same as the objects of $\cC$.
+        \item A map $X \to Y \in Kl(T)$ is a map $X \to TY \in Kl(T)$
+        \item $1_X = \eta_X$ and the composition is defined using the multiplication.
+    \end{enumerate}
+\end{definition}
+
+Exercise: verify that the Kleisli category is really a category.
+
 
 
 \end{document}
