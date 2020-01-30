@@ -570,4 +570,16 @@ Exercise: verify that the Kleisli category is really a category.
 \end{enumerate}
 \end{example}
 
+\begin{definition}
+    Let $\cC$ be a symmetric monoidal category. A \emph{commutative comonoid} is an object $X$ equipped with maps $X \to I$ and $X \to X \tensor X$,
+    so that the following diagrams commute.
+\end{definition}
+These axioms are \emph{dual} to the usual axioms of unit, commutativity and associativity - they are what results from turning the arrows around.
+This definitions exhibits two patterns very common in category theory:
+
+\begin{enumerate}
+    \item \emph{Dualization} - taking a definition and ``turning the arrows around'' to get a new definition.
+    \item The process of \emph{internalizing} a definition - taking an algebraic structure, usually interpreted as a set with operations, and interpreting it in any category (perhaps using some structure from the category).
+\end{enumerate}
+
 \end{document}
