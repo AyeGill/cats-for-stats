@@ -559,6 +559,15 @@ In fact, the construction of $\Stoch$ from $\Meas$ and $G$ is a general thing:
 
 Exercise: verify that the Kleisli category is really a category.
 
-
+\begin{example}
+    We have many examples of monads.
+\begin{enumerate}
+    \item The functor $D: \Set \to \Set$ which sends each set to set of probability distributions on it with finite support. Exercise: What is the monad structure. Exercise: Make $Kl(D)$ into a Markov category.
+    \item The functor $(-)_*: \Set \to \Set$ which sends each set $X$ to the set $X_* = X \sqcup \{*\}$, $X$ with an added basepoint. The Kleisli category can be identified with the category of sets and \emph{partial maps}.
+    \item If $A$ is a partially ordered set, a monad on $A$ is a monotone map $f: A \to A$ where $a \leq f(a) = f(f(a))$.
+    \item If $X$ is a topological space, and $\overline{(-)}: \cP(X) \to \cP(X)$ is the operation of taking the closure of a subset, $\overline{(-)}$ is a monad.
+    \item If $A$ is a group, the functor $\Set \to \Set$ defined by $A \mapsto A \times X$ carries a monad structure. Exercise: define it.
+\end{enumerate}
+\end{example}
 
 \end{document}
